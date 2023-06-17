@@ -6,12 +6,12 @@ public class CursorController : MonoBehaviour
 {
     private void Start()
     {
-        ToggleCursor(locked: false);
+        ToggleCursor(locked: true);
     }
 
     private static void ToggleCursor(bool locked)
     {
-        Cursor.visible = locked;
+        Cursor.visible = !locked;
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
