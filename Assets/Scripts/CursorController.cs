@@ -9,7 +9,7 @@ public class CursorController : MonoBehaviour
         ToggleCursor(locked: true);
     }
 
-    private static void ToggleCursor(bool locked)
+    public static void ToggleCursor(bool locked)
     {
         Cursor.visible = !locked;
         Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
