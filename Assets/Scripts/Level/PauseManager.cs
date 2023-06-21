@@ -30,5 +30,10 @@ public class PauseManager : LevelComponent
     {
         isPaused = !isPaused;
         pauseCamera.Priority = isPaused ? 0 : -1;
+
+        if (isPaused)
+            level.Settings.Events.OnPaused?.Invoke();
+        else
+            level.Settings.Events.OnResumed?.Invoke();
     }
 }
