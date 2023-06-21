@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -33,15 +34,7 @@ public class PlayerAnimator : PlayerComponent
 
     private void OnPaused()
     {
-        StartCoroutine(BlendRigWeight(trackRig, 0f, 1f, trackBlendSpeed, trackBeginCurve, 0.15f));
-        StartCoroutine(BlendRigWeight(holdRig, 0f, 1f, holdBlendSpeed, holdBeginCurve, 0.15f, () =>
-        {
-            holdParent.SetActive(true);
-        }, 
-        () =>
-        {
-            animator.SetTrigger("Swing");
-        }));
+        StartCoroutine(PauseAnimation());
     }
 
     private void OnResumed()
@@ -67,5 +60,15 @@ public class PlayerAnimator : PlayerComponent
 
         rig.weight = to;
         onComplete?.Invoke();
+    }
+
+    private IEnumerator PauseAnimation()
+    {
+        yield return new WaitForSeconds(0.2f);
+        StartCoroutine(BlendRigWeight(trackRig, 0f, 1f, trackBlendSpeed, trackBeginCurve));
+        holdParent.SetActive(true);
+        holdRig.weight = 1f;
+        yield return new WaitForSeconds(0.8f);
+        animator.SetTrigger("Swing");
     }
 }
